@@ -7,7 +7,7 @@ const loadPhones = async(searchText, dataLimit) =>{
 
 const displayPhones = (phones, dataLimit) =>{
     const phonesContainer = document.getElementById('phones-container');
-    // phonesContainer.textContent = '';
+    phonesContainer.textContent = '';
     // display 10 phones only 
     const showAll = document.getElementById('show-all');
     if(dataLimit && phones.length > 10) {
@@ -29,10 +29,10 @@ const displayPhones = (phones, dataLimit) =>{
     }
     // display all phones
     phones.forEach(phone =>{
-        console.log(phone);
-        const phoneDiv  = document.createElement('div');
+        let phonesContainer = document.getElementById('phones-container');
+        let phoneDiv  = document.createElement('div');
         phoneDiv.classList.add('col');
-        phonesContainer.innerHTML = `
+        phoneDiv.innerHTML = `
         <div class="card p-4">
             <img src="${phone.image}" class="card-img-top" alt="...">
             <div class="card-body">
@@ -42,9 +42,10 @@ const displayPhones = (phones, dataLimit) =>{
                 
             </div>
         </div>
-        `;
+        `;  
         phonesContainer.appendChild(phoneDiv);
     });
+   
     // stop spinner or loader
     toggleSpinner(false);
 }
@@ -60,7 +61,6 @@ const processSearch = (dataLimit) =>{
 document.getElementById('btn-search').addEventListener('click', function(){
     // start loader
     processSearch(10);
-    loadPhones();
 })
 
 // search input field enter key handler
@@ -86,24 +86,24 @@ document.getElementById('btn-show-all').addEventListener('click', function(){
     processSearch();
 })
 
-const loadPhoneDetails = async id =>{
-    const url =`www.openapi.programming-hero.com/api/phone/${id}`;
+const loadPhoneDetails = async (id) =>{
+    const url =`https://openapi.programming-hero.com/api/phone/${id}`;
     const res = await fetch(url);
     const data = await res.json();
     displayPhoneDetails(data.data);
 }
 
 const displayPhoneDetails = phone =>{
-    console.log(phone);
+    // console.log(phone);
     const modalTitle = document.getElementById('phoneDetailModalLabel');
-    modalTitle.innerText = phone.name;
+    modalTitle.innerText = phone?.name;
     const phoneDetails = document.getElementById('phone-details');
-    console.log(phone.mainFeatures.sensors[0]);
+    // console.log(phone.mainFeatures.sensors[0]);
     phoneDetails.innerHTML = `
-        <p>Release Date: ${phone.releaseDate}</p>
-        <p>Storage: ${phone.mainFeatures}</p>
-        <p>Others: ${phone.others ? phone.others.Bluetooth : 'No Bluetooth Information'}</p>
-        <p>Sensor: ${phone.mainFeatures.sensors ? phone.mainFeatures.sensors[0] : 'no sensor'}</p>
+        <p>Release Date: ${phone?.releaseDate}</p>
+        <p>Storage: ${phone?.mainFeatures.storage}</p>
+        <p>Others: ${phone?.others ? phone.others.Bluetooth : 'No Bluetooth Information'}</p>
+        <p>Sensor: ${phone?.mainFeatures.sensors ? phone.mainFeatures.sensors[0] : 'no sensor'}</p>
     `
 }
 loadPhones('iphone');
