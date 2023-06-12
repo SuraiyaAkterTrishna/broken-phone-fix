@@ -29,11 +29,12 @@ const displayPhones = (phones, dataLimit) =>{
     }
     // display all phones
     phones.forEach(phone =>{
+        console.log(phone);
         const phoneDiv  = document.createElement('div');
         phoneDiv.classList.add('col');
         phonesContainer.innerHTML = `
         <div class="card p-4">
-            <img src="${phone.images}" class="card-img-top" alt="...">
+            <img src="${phone.image}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">${phone.phone_name}</h5>
                 <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
@@ -56,9 +57,10 @@ const processSearch = (dataLimit) =>{
 }
 
 // handle search button click
-document.getElementById('#btn-search').addEventListener('click', function(){
+document.getElementById('btn-search').addEventListener('click', function(){
     // start loader
     processSearch(10);
+    loadPhones();
 })
 
 // search input field enter key handler
@@ -70,7 +72,7 @@ document.getElementById('search-field').addEventListener('keypress', function (e
 
 const toggleSpinner = isLoading => {
     const loaderSection = document.getElementById('loader');
-    if(!isLoading){
+    if(isLoading){
         loaderSection.classList.remove('d-none')
     }
     else{
@@ -104,5 +106,4 @@ const displayPhoneDetails = phone =>{
         <p>Sensor: ${phone.mainFeatures.sensors ? phone.mainFeatures.sensors[0] : 'no sensor'}</p>
     `
 }
-
-loadPhones('apple');
+loadPhones('iphone');
